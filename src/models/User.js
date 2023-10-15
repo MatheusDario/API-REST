@@ -18,11 +18,11 @@ export default class User extends Model {
         type: Sequelize.STRING,
         defaultValue: '',
         unique: {
-          msg: 'E-mail já existe',
+          msg: 'Email já existe',
         },
         validate: {
           isEmail: {
-            msg: 'E-mail inválido',
+            msg: 'Email inválido',
           },
         },
       },
@@ -49,6 +49,11 @@ export default class User extends Model {
         user.password_hash = await bcryptjs.hash(user.password, 8);
       }
     });
+
     return this;
+  }
+
+  passwordIsValid(password) {
+    return bcryptjs.compare(password, this.password_hash);
   }
 }
