@@ -4,7 +4,8 @@ class User {
   async store(req, res) {
     try {
       const novoUser = await UserModel.create(req.body);
-      return res.json(novoUser);
+      const { id, nome, email } = novoUser;
+      return res.json({ id, nome, email });
     } catch (e) {
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),
@@ -14,7 +15,7 @@ class User {
 
   async index(req, res) {
     try {
-      const users = await UserModel.findAll();
+      const users = await UserModel.findAll({ attributes: ['id', 'nome', 'email'] });
       return res.json(users);
     } catch (e) {
       return res.json(null);
@@ -24,7 +25,9 @@ class User {
   async show(req, res) {
     try {
       const user = await UserModel.findByPk(req.params.id);
-      return res.json(user);
+
+      const { id, nome, email } = user;
+      return res.json({ id, nome, email });
     } catch (e) {
       return res.json(null);
     }
@@ -32,13 +35,7 @@ class User {
 
   async update(req, res) {
     try {
-      const user = await UserModel.findByPk(req.params.id);
-
-      if (!req.params.id) {
-        return res.status(400).json({
-          errors: ['ID não enviado.'],
-        });
-      }
+      const user = await UserModel.findByPk(req.userId);
 
       if (!user) {
         res.status(400).json({
@@ -47,8 +44,8 @@ class User {
       }
 
       const novosDados = await user.update(req.body);
-
-      return res.json(novosDados);
+      const { id, nome, email } = novosDados;
+      return res.json({ id, nome, email });
     } catch (e) {
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),
@@ -58,13 +55,7 @@ class User {
 
   async delete(req, res) {
     try {
-      const user = await UserModel.findByPk(req.params.id);
-
-      if (!req.params.id) {
-        return res.status(400).json({
-          errors: ['ID não enviado.'],
-        });
-      }
+      const user = await UserModel.findByPk(req.userId);
 
       if (!user) {
         res.status(400).json({
@@ -74,7 +65,9 @@ class User {
 
       await user.destroy();
 
-      return res.json(user);
+      return res.json({
+        resposta: ['Sua conta foi Deletada com Sucesso'],
+      });
     } catch (e) {
       return res.status(400).json({
         errors: e.errors.map((err) => err.message),

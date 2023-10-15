@@ -1,6 +1,7 @@
 import jwt from 'jsonwebtoken';
+import User from '../models/User';
 
-export default (req, res, next) => {
+export default async (req, res, next) => {
   const { authorization } = req.headers;
 
   if (!authorization) {
@@ -16,6 +17,20 @@ export default (req, res, next) => {
     const { id, email } = dados;
     req.userId = id;
     req.userEmail = email;
+
+    const user = await User.findOne({
+      where: {
+        id,
+        email,
+      },
+    });
+
+    if (!user) {
+      return res.status(401).json({
+        errors: ['Usuário Inválido!'],
+      });
+    }
+
     return next();
   } catch (e) {
     return res.status(401).json({
