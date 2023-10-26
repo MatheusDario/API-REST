@@ -17,8 +17,7 @@ import alunoRoutes from './routes/aluno';
 import fotoRoutes from './routes/foto';
 
 const whiteList = [
-  'https://react.matheusdario.com.br',
-  'http://escola.matheusdario.com.br/',
+  'https://escola.matheusdario.com.br/',
   'http://localhost:3000',
 ];
 
