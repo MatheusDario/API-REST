@@ -18,6 +18,7 @@ import fotoRoutes from './routes/foto';
 
 const whiteList = [
   'https://react.matheusdario.com.br',
+  'http://escola.matheusdario.com.br/',
   'http://localhost:3000',
 ];
 
@@ -41,7 +42,7 @@ class App {
   middlewares() {
     this.app.use(cors(corsOptions));
     this.app.use(helmet());
-    this.app.use(delay(2000));
+    this.app.use(delay(500));
     this.app.use(express.urlencoded({ extended: true }));
     this.app.use(express.json());
     this.app.use('/images/', express.static(resolve(__dirname, '..', 'uploads', 'images')));
