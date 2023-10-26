@@ -17,7 +17,7 @@ var _aluno = require('./routes/aluno'); var _aluno2 = _interopRequireDefault(_al
 var _foto = require('./routes/foto'); var _foto2 = _interopRequireDefault(_foto);
 
 const whiteList = [
-  'https://escola.matheusdario.com.br/',
+  'https://escola.matheusdario.com.br',
   'http://localhost:3000',
 ];
 
